@@ -1,0 +1,257 @@
+.categories-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+}
+
+.pie-chart-card {
+  padding: 28px;
+}
+
+.pie-chart-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.pie-chart-placeholder {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 260px;
+  position: relative;
+}
+
+.pie-chart-placeholder::before {
+  content: '';
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: rgba(26, 26, 46, 0.9);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+}
+
+.pie-center {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.pie-center-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pie-center-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.categories-card {
+  padding: 24px;
+}
+
+.categories-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+}
+
+.category-tab {
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background: transparent;
+}
+
+.category-tab:hover {
+  color: white;
+}
+
+.category-tab.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.categories-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.categories-header h4 {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.categories-count {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.categories-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.categories-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.category-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.category-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.category-row-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-row-info {
+  flex: 1;
+}
+
+.category-row-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.category-row-info p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.category-row-bar {
+  flex: 1;
+  max-width: 200px;
+}
+
+.category-row-bar .category-bar {
+  height: 8px;
+}
+
+.category-row-amount {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.category-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.category-row:hover .category-actions {
+  opacity: 1;
+}
+
+.category-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.category-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.category-action-btn.delete-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.budget-card {
+  margin-top: 24px;
+  padding: 24px;
+}
+
+.budget-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.budget-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.budget-summary span {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.budget-summary .amount {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.budget-bar {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.budget-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 6px;
+  width: 65%;
+  transition: width 0.5s ease;
+}

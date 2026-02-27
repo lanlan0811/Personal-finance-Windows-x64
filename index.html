@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记账助手</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/main-content.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/bills.css">
+  <link rel="stylesheet" href="css/categories.css">
+  <link rel="stylesheet" href="css/ai.css">
+  <link rel="stylesheet" href="css/settings.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <i data-lucide="wallet-cards" class="icon" style="width: 28px; height: 28px;"></i>
+      </div>
+      <div class="logo-text">
+        <h1>记账助手</h1>
+        <p>财务管理 · 轻松记账</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">主菜单</div>
+        <div class="nav-item active" data-page="home">
+          <i data-lucide="home" class="icon"></i>
+          <span>首页</span>
+        </div>
+        <div class="nav-item" data-page="bills">
+          <i data-lucide="receipt" class="icon"></i>
+          <span>账单</span>
+        </div>
+        <div class="nav-item" data-page="categories">
+          <i data-lucide="grid-3x3" class="icon"></i>
+          <span>分类</span>
+        </div>
+        <div class="nav-item" data-page="ai">
+          <i data-lucide="bot" class="icon"></i>
+          <span>AI分析</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">其他</div>
+        <div class="nav-item" data-page="settings">
+          <i data-lucide="settings" class="icon"></i>
+          <span>设置</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="savings-card">
+        <div class="savings-header">
+          <i data-lucide="piggy-bank" class="icon" style="width: 16px; height: 16px; opacity: 0.7;"></i>
+          <span>本月储蓄目标</span>
+        </div>
+        <div class="savings-value" id="savings-goal-display">¥0</div>
+        <div class="savings-bar">
+          <div class="savings-bar-fill" id="savings-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="savings-change" id="savings-change" style="display: none;"></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-header">
+      <div class="search-bar">
+        <i data-lucide="search" class="icon"></i>
+        <input type="text" id="global-search" placeholder="搜索账单、分类或标签...">
+      </div>
+      <div class="header-right">
+        <div class="date-badge" id="current-date"></div>
+      </div>
+    </div>
+
+    <div id="page-home" class="page">
+      <div class="page-header">
+        <div class="page-title">
+          <h2>财务概览</h2>
+          <p>查看您的整体财务状况</p>
+        </div>
+        <button class="btn-primary" id="add-bill-btn-home">
+          <i data-lucide="plus" class="icon" style="width: 18px; height: 18px; margin-right: 8px;"></i>
+          记一笔
+        </button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card balance glass-card">
+          <div class="stat-header">
+            <div class="stat-title">
+              <div class="stat-icon balance-icon">
+                <i data-lucide="wallet" class="icon" style="width: 22px; height: 22px;"></i>
+              </div>
+              <span>账户余额</span>
+            </div>
+          </div>
+          <div class="stat-value" id="balance-value">¥0</div>
+          <div class="stat-change" id="balance-change" style="display: none;"></div>
+          <div class="stat-footer" id="balance-footer" style="display: none;"></div>
+        </div>
+
+        <div class="stat-card glass-card">
+          <div class="stat-header">
+            <div class="stat-title">
+              <div class="stat-icon income-icon">
+                <i data-lucide="trending-up" class="icon" style="width: 22px; height: 22px; color: #10b981;"></i>
+              </div>
+              <span>本月收入</span>
+            </div>
+          </div>
+          <div class="stat-value" id="income-value" style="color: #10b981;">¥0</div>
+          <div class="stat-change" id="income-change" style="display: none;"></div>
+        </div>
+
+        <div class="stat-card glass-card">
+          <div class="stat-header">
+            <div class="stat-title">
+              <div class="stat-icon expense-icon">
+                <i data-lucide="trending-down" class="icon" style="width: 22px; height: 22px; color: #ef4444;"></i>
+              </div>
+              <span>本月支出</span>
+            </div>
+          </div>
+          <div class="stat-value" id="expense-value" style="color: #ef4444;">¥0</div>
+          <div class="stat-change" id="expense-change" style="display: none;"></div>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card glass-card">
+          <div class="chart-header">
+            <h3>收支趋势</h3>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-dot income"></div>
+                <span>收入</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot expense"></div>
+                <span>支出</span>
+              </div>
+            </div>
+          </div>
+          <div id="home-trend-chart" style="width: 100%; height: 250px;"></div>
+        </div>
+
+        <div class="chart-card glass-card">
+          <div class="chart-header">
+            <h3>支出分类</h3>
+          </div>
+          <div class="category-list" id="home-categories-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-bills" class="page hidden">
+      <div class="page-header">
+        <div class="page-title">
+          <h2>账单记录</h2>
+          <p>管理您的所有收支记录</p>
+        </div>
+        <button class="btn-primary" id="add-bill-btn">
+          <i data-lucide="plus" class="icon" style="width: 18px; height: 18px; margin-right: 8px;"></i>
+          添加账单
+        </button>
+      </div>
+
+      <div class="bills-summary">
+        <div class="summary-card glass-card">
+          <div class="summary-header">
+            <i data-lucide="trending-up" class="icon" style="color: #10b981;"></i>
+            <span>本月收入</span>
+          </div>
+          <div class="summary-value income" id="bills-income">¥0</div>
+        </div>
+        <div class="summary-card glass-card">
+          <div class="summary-header">
+            <i data-lucide="trending-down" class="icon" style="color: #ef4444;"></i>
+            <span>本月支出</span>
+          </div>
+          <div class="summary-value expense" id="bills-expense">¥0</div>
+        </div>
+        <div class="summary-card glass-card">
+          <div class="summary-header">
+            <i data-lucide="wallet" class="icon" style="color: #8b5cf6;"></i>
+            <span>本月结余</span>
+          </div>
+          <div class="summary-value net" id="bills-net">¥0</div>
+        </div>
+      </div>
+
+      <div class="bills-toolbar glass-card">
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">全部</button>
+          <button class="filter-tab" data-filter="income">收入</button>
+          <button class="filter-tab" data-filter="expense">支出</button>
+        </div>
+        <div class="toolbar-search">
+          <i data-lucide="search" class="icon"></i>
+          <input type="text" id="bills-search" placeholder="搜索账单...">
+        </div>
+        <div class="sort-select" id="bills-sort">
+          <span>按日期</span>
+          <i data-lucide="chevron-down" class="icon"></i>
+        </div>
+      </div>
+
+      <div class="bills-list glass-card">
+        <div class="bill-header">
+          <span>账单</span>
+          <span>日期</span>
+          <span>金额</span>
+        </div>
+        <div id="bills-container"></div>
+        <div class="pagination-container" id="bills-pagination"></div>
+      </div>
+    </div>
+
+    <div id="page-categories" class="page hidden">
+      <div class="page-header">
+        <div class="page-title">
+          <h2>分类管理</h2>
+          <p>管理您的收支分类</p>
+        </div>
+        <button class="btn-primary" id="add-category-btn">
+          <i data-lucide="plus" class="icon" style="width: 18px; height: 18px; margin-right: 8px;"></i>
+          添加分类
+        </button>
+      </div>
+
+      <div class="categories-layout">
+        <div>
+          <div class="pie-chart-card glass-card">
+            <h3>支出占比</h3>
+            <div id="categories-pie-chart"></div>
+          </div>
+
+          <div class="budget-card glass-card">
+            <h3>月度预算</h3>
+            <div class="budget-summary">
+              <span>已使用</span>
+              <span class="amount" id="budget-used">0%</span>
+            </div>
+            <div class="budget-bar">
+              <div class="budget-bar-fill" id="budget-bar-fill" style="width: 0%;"></div>
+            </div>
+            <div class="budget-detail" id="budget-detail" style="margin-top: 8px; font-size: 13px; color: rgba(255,255,255,0.6);"></div>
+          </div>
+        </div>
+
+        <div class="categories-card glass-card">
+          <div class="categories-tabs">
+            <button class="category-tab active" data-type="expense">支出分类</button>
+            <button class="category-tab" data-type="income">收入分类</button>
+          </div>
+
+          <div class="categories-header">
+            <h4>常用分类</h4>
+            <span class="categories-count" id="categories-count">0 个分类</span>
+          </div>
+
+          <div class="categories-list" id="categories-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-ai" class="page hidden">
+      <div class="page-header">
+        <div class="ai-header">
+          <div class="ai-icon">
+            <i data-lucide="sparkles" class="icon" style="width: 28px; height: 28px;"></i>
+          </div>
+          <div class="ai-header-info">
+            <h2>AI 智能分析</h2>
+            <p>让AI帮您分析财务状况</p>
+          </div>
+        </div>
+        <button class="refresh-btn" id="ai-refresh-btn">
+          <i data-lucide="refresh-ccw" class="icon" style="width: 18px; height: 18px;"></i>
+          重新分析
+        </button>
+      </div>
+
+      <div class="ai-summary-card glass-card">
+        <div class="score-circle">
+          <div class="score-bg"></div>
+          <div class="score-progress" id="ai-score-progress"></div>
+          <div class="score-value">
+            <div class="number" id="ai-score">--</div>
+            <div class="label">财务健康度</div>
+          </div>
+        </div>
+
+        <div class="ai-insights">
+          <div class="insight-title">
+            <i data-lucide="check-circle-2" class="icon" style="color: #10b981;"></i>
+            <h3 id="ai-status">暂无数据</h3>
+          </div>
+          <p id="ai-insight-text">请先添加一些账单记录，AI才能为您提供分析。</p>
+        </div>
+
+        <div class="ai-metrics" id="ai-metrics-container">
+          <div class="metric-box">
+            <div class="value" id="ai-savings-rate">--</div>
+            <div class="label">储蓄率</div>
+          </div>
+          <div class="metric-box">
+            <div class="value" id="ai-income-expense-ratio">--</div>
+            <div class="label">收支比</div>
+          </div>
+          <div class="metric-box">
+            <div class="value" id="ai-budget-usage">--</div>
+            <div class="label">预算使用率</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-charts-grid">
+        <div class="chart-card glass-card">
+          <div class="chart-header">
+            <h3>月度趋势</h3>
+          </div>
+          <div id="ai-monthly-chart" style="width: 100%; height: 300px;"></div>
+        </div>
+
+        <div class="chart-card glass-card">
+          <div class="chart-header">
+            <h3>消费预测</h3>
+          </div>
+          <div id="ai-prediction-chart" style="width: 100%; height: 250px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-settings" class="page hidden">
+      <div class="page-header">
+        <div class="page-title">
+          <h2>设置</h2>
+          <p>管理您的账户和偏好</p>
+        </div>
+      </div>
+
+      <div class="settings-layout">
+        <div class="settings-sidebar glass-card">
+          <div class="settings-nav-item active" data-setting="profile">
+            <i data-lucide="user" class="icon"></i>
+            <span>个人信息</span>
+          </div>
+          <div class="settings-nav-item" data-setting="budget">
+            <i data-lucide="wallet" class="icon"></i>
+            <span>预算设置</span>
+          </div>
+          <div class="settings-nav-item" data-setting="notifications">
+            <i data-lucide="bell" class="icon"></i>
+            <span>通知设置</span>
+          </div>
+          <div class="settings-nav-item" data-setting="appearance">
+            <i data-lucide="palette" class="icon"></i>
+            <span>外观主题</span>
+          </div>
+          <div class="settings-nav-item" data-setting="data">
+            <i data-lucide="database" class="icon"></i>
+            <span>数据管理</span>
+          </div>
+        </div>
+
+        <div class="settings-content glass-card">
+          <div class="settings-section" id="setting-profile">
+            <h2>个人信息</h2>
+            
+            <div class="profile-card">
+              <div class="profile-avatar" id="user-avatar">
+                <span id="avatar-initial">用</span>
+              </div>
+              <div class="profile-info">
+                <h3 id="display-user-name">用户</h3>
+                <p>记账助手用户</p>
+                <div class="profile-badge">
+                  <i data-lucide="calendar" class="icon"></i>
+                  <span>已使用 <span id="usage-days">0</span> 天</span>
+                </div>
+              </div>
+              <button class="edit-avatar-btn" id="edit-avatar-btn">
+                <i data-lucide="camera" class="icon" style="width: 16px; height: 16px;"></i>
+                更换头像
+              </button>
+            </div>
+            <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+
+            <div class="form-group">
+              <label>用户名</label>
+              <input type="text" id="user-name" class="form-input" placeholder="请输入用户名">
+            </div>
+
+            <div class="form-group">
+              <label>货币单位</label>
+              <select id="user-currency" class="form-select">
+                <option value="CNY">人民币 (CNY)</option>
+                <option value="USD">美元 (USD)</option>
+                <option value="EUR">欧元 (EUR)</option>
+                <option value="JPY">日元 (JPY)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>月度储蓄目标</label>
+              <input type="number" id="savings-goal" class="form-input" placeholder="请输入储蓄目标金额" min="0">
+            </div>
+
+            <button class="btn-primary" id="save-profile-btn">保存更改</button>
+          </div>
+
+          <div class="settings-section hidden" id="setting-budget">
+            <h2>预算设置</h2>
+
+            <div class="form-group">
+              <label>月度预算</label>
+              <input type="number" id="monthly-budget" class="form-input" placeholder="请输入月度预算金额" min="0">
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>启用预算</h4>
+                <p>开启后将在首页显示预算使用情况</p>
+              </div>
+              <div class="toggle-switch" id="budget-enabled-toggle"></div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>超支警告</h4>
+                <p>当支出超过预算时发送警告通知</p>
+              </div>
+              <div class="toggle-switch" id="overspend-alert-toggle"></div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+              <label>警告阈值 (%)</label>
+              <input type="number" id="budget-warning-threshold" class="form-input" placeholder="例如：80" min="50" max="100" value="80">
+              <p style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 8px;">当预算使用率达到此百分比时发送警告</p>
+            </div>
+
+            <button class="btn-primary" id="save-budget-btn">保存更改</button>
+          </div>
+
+          <div class="settings-section hidden" id="setting-notifications">
+            <h2>通知设置</h2>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>每日记账提醒</h4>
+                <p>每天定时提醒您记录收支</p>
+              </div>
+              <div class="toggle-switch" id="daily-reminder-toggle"></div>
+            </div>
+
+            <div class="form-group" id="reminder-time-group" style="margin-top: 16px;">
+              <label>提醒时间</label>
+              <input type="time" id="reminder-time" class="form-input" value="20:00">
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>周报推送</h4>
+                <p>每周日发送财务周报</p>
+              </div>
+              <div class="toggle-switch" id="weekly-report-toggle"></div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>预算超支警告</h4>
+                <p>当支出超过预算时发送警告</p>
+              </div>
+              <div class="toggle-switch" id="notification-overspend-toggle"></div>
+            </div>
+
+            <button class="btn-primary" id="save-notifications-btn">保存更改</button>
+          </div>
+
+          <div class="settings-section hidden" id="setting-appearance">
+            <h2>外观主题</h2>
+
+            <div class="form-group">
+              <label>选择主题</label>
+              <div class="theme-options">
+                <div class="theme-option active" data-theme="dark">
+                  <div class="theme-preview dark"></div>
+                  <span>深色模式</span>
+                </div>
+                <div class="theme-option" data-theme="light">
+                  <div class="theme-preview light"></div>
+                  <span>浅色模式</span>
+                </div>
+                <div class="theme-option" data-theme="purple">
+                  <div class="theme-preview purple"></div>
+                  <span>紫色主题</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>跟随系统</h4>
+                <p>自动跟随系统主题设置</p>
+              </div>
+              <div class="toggle-switch" id="follow-system-toggle"></div>
+            </div>
+
+            <button class="btn-primary" id="save-theme-btn">保存更改</button>
+          </div>
+
+          <div class="settings-section hidden" id="setting-data">
+            <h2>数据管理</h2>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>导出数据</h4>
+                <p>将所有数据导出为JSON文件</p>
+              </div>
+              <button class="btn-secondary" id="export-data-btn">
+                <i data-lucide="download" class="icon" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                导出
+              </button>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h4>导入数据</h4>
+                <p>从备份文件恢复数据</p>
+              </div>
+              <button class="btn-secondary" id="import-data-btn">
+                <i data-lucide="upload" class="icon" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                导入
+              </button>
+            </div>
+            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+
+            <div class="danger-zone">
+              <h3>危险操作</h3>
+              <p>以下操作不可撤销，请谨慎操作</p>
+              <button class="btn-danger" id="clear-data-btn">
+                <i data-lucide="trash-2" class="icon" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                清除所有数据
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/database.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/bills.js"></script>
+  <script src="js/categories.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
