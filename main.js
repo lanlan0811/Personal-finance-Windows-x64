@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { app, BrowserWindow, Notification, ipcMain, nativeImage } = require('electron');
+const { app, BrowserWindow, Notification, ipcMain, nativeImage, Menu } = require('electron');
 const config = require('./config');
 
 let mainWindow = null;
@@ -59,7 +59,10 @@ function createWindow() {
   });
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  Menu.setApplicationMenu(null);
+  createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (reminderTimeout) {

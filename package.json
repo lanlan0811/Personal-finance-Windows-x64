@@ -48,9 +48,7 @@
       "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
       "!dist",
       "!.trae",
-      "!.env",
-      "!.env.*",
-      "!*.example"
+      "!.env.example"
     ],
     "win": {
       "target": [
