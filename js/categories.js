@@ -42,7 +42,7 @@ const categoryModule = {
   },
 
   renderPieChart() {
-    const chartContainer = document.querySelector('#page-categories .pie-chart-placeholder');
+    const chartContainer = document.querySelector('#categories-pie-chart');
     if (!chartContainer) return;
 
     const stats = this.getCategoryStats();
@@ -59,11 +59,13 @@ const categoryModule = {
     }
 
     const colors = [];
+    const categoryNames = [];
     const categories = this.categories.expense;
     
     Object.keys(stats).forEach(categoryId => {
       const category = categories.find(c => c.id === categoryId);
       colors.push(category?.color || '#6b7280');
+      categoryNames.push(stats[categoryId].categoryName || category?.name || '其他');
     });
 
     const gradientStops = [];
@@ -83,26 +85,94 @@ const categoryModule = {
           <div class="pie-center-label">总支出</div>
         </div>
       </div>
+      <div class="pie-legend">
+        ${data.map((item, index) => `
+          <div class="pie-legend-item">
+            <div class="pie-legend-color" style="background: ${colors[index]}"></div>
+            <span class="pie-legend-name">${categoryNames[index]}</span>
+            <span class="pie-legend-value">¥${item.amount.toLocaleString()}</span>
+          </div>
+        `).join('')}
+      </div>
     `;
 
-    const style = document.createElement('style');
-    style.textContent = `
-      .pie-chart {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        position: relative;
-      }
-      .pie-chart::before {
-        content: '';
-        position: absolute;
-        inset: 30px;
-        background: #1e1e3f;
-        border-radius: 50%;
-      }
-    `;
     if (!document.querySelector('#pie-chart-style')) {
+      const style = document.createElement('style');
       style.id = 'pie-chart-style';
+      style.textContent = `
+        #categories-pie-chart {
+          flex-direction: column;
+          gap: 20px;
+          height: auto;
+          min-height: 260px;
+          background: transparent;
+        }
+        #categories-pie-chart::before {
+          display: none;
+        }
+        .pie-chart {
+          width: 200px;
+          height: 200px;
+          border-radius: 50%;
+          position: relative;
+          flex-shrink: 0;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .pie-chart::before {
+          content: '';
+          position: absolute;
+          inset: 35px;
+          background: linear-gradient(135deg, #1e1e3f 0%, #2d2d5a 100%);
+          border-radius: 50%;
+          box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .pie-center {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          z-index: 1;
+        }
+        .pie-center-value {
+          font-size: 24px;
+          font-weight: 700;
+          color: #fff;
+        }
+        .pie-center-label {
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.6);
+        }
+        .pie-legend {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          justify-content: center;
+          margin-top: 10px;
+        }
+        .pie-legend-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 12px;
+          padding: 4px 8px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 6px;
+        }
+        .pie-legend-color {
+          width: 10px;
+          height: 10px;
+          border-radius: 3px;
+        }
+        .pie-legend-name {
+          color: rgba(255, 255, 255, 0.8);
+        }
+        .pie-legend-value {
+          color: rgba(255, 255, 255, 0.5);
+          font-weight: 500;
+        }
+      `;
       document.head.appendChild(style);
     }
   },

@@ -28,7 +28,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   platform: process.platform,
   
-  appVersion: process.env.npm_package_version || '1.0.0',
+  appVersion: process.env.npm_package_version || '2.0.0',
   
   onConfigLoaded: (callback) => 
     ipcRenderer.on('config-loaded', callback)

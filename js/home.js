@@ -67,10 +67,8 @@ const homeModule = {
   },
 
   async renderTrendChart() {
-    const chartContainer = document.querySelector('#page-home .chart-placeholder');
+    const chartContainer = document.querySelector('#home-trend-chart');
     if (!chartContainer) return;
-
-    chartContainer.innerHTML = '<div id="trend-chart" style="width: 100%; height: 250px;"></div>';
 
     const now = new Date();
     const year = now.getFullYear();
@@ -172,7 +170,7 @@ const homeModule = {
         }
       };
 
-      this.trendChart = new ApexCharts(document.querySelector('#trend-chart'), options);
+      this.trendChart = new ApexCharts(chartContainer, options);
       this.trendChart.render();
     } else {
       this.renderFallbackChart(chartContainer, months, incomeData, expenseData);

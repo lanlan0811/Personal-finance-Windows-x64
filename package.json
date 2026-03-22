@@ -1,6 +1,6 @@
 {
   "name": "electron-accounting-assistant",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Electron桌面端记账助手应用",
   "main": "main.js",
   "scripts": {

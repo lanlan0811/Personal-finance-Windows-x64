@@ -25,7 +25,7 @@ const config = {
   },
   app: {
     name: '记账助手',
-    version: '1.0.0'
+    version: '2.0.0'
   },
   notifications: {
     dailyReminder: {
