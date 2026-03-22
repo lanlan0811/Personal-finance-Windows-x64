@@ -30,3 +30,6 @@ npm-debug.log*
 # npmrc
 .npmrc
 
+# Code review report
+CODE_REVIEW_REPORT.md
+
