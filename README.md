@@ -68,9 +68,15 @@ cp .env.example .env
 1. 编辑 `.env` 文件，配置 AI API（可选）：
 
 ```env
+# API配置 - 请填入您的实际API密钥
 AI_API_KEY=your-api-key-here
-AI_API_URL=your-api-url
-AI_MODEL=your-ai-model
+
+# API地址（推荐使用魔塔社区ModelScope）
+AI_API_URL=your-api-url-here
+
+# 模型名称
+AI_MODEL=your-model-name-here
+
 ```
 
 ### 安装与运行
@@ -158,17 +164,29 @@ AI 分析功能支持兼容 OpenAI API 格式的服务。
 示例：
 
 ```env
+# API配置 - 请填入您的实际API密钥
 AI_API_KEY=sk-xxxxxxxxxxxxxxxx
-AI_API_URL=https://api.openai.com/v1/chat/completions
-AI_MODEL=gpt-4o-mini
+
+# API地址
+AI_API_URL=https://api.openai.com/v1
+
+# 模型名称
+AI_MODEL=gpt-4o-mini（可使用其他模型）
+
 ```
 
 *注意：可以使用魔塔社区免费模型*
 
 ```env
+# API配置 - 请填入您的实际API密钥
 AI_API_KEY=ms-xxxxxxxxxxxxxxxx
+
+# API地址
 AI_API_URL=https://api-inference.modelscope.cn/v1
-AI_MODEL=XiaomiMiMo/MiMo-V2-Flash
+
+# 模型名称
+AI_MODEL=XiaomiMiMo/MiMo-V2-Flash（可使用其他支持的文本生成模型）
+
 ```
 
 **魔塔社区注册与使用步骤：**
