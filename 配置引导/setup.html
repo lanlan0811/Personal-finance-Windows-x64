@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记账助手 - 配置指南</title>
+  <link rel="stylesheet" href="setup.css">
+</head>
+<body>
+  <div class="setup-container">
+    <div class="setup-card glass-card">
+      <div class="setup-header">
+        <div class="logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
+          </svg>
+        </div>
+        <h1>欢迎使用记账助手</h1>
+        <p class="subtitle">配置 AI 功能，开启智能财务分析</p>
+      </div>
+
+      <div class="setup-content">
+        <div class="intro-section">
+          <div class="intro-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <div class="intro-text">
+            <p>记账助手的 <strong>AI 智能分析</strong> 功能需要配置您的 API 密钥。</p>
+            <p>配置信息将保存在本地的 <code>.env</code> 文件中，不会上传到任何服务器。</p>
+          </div>
+        </div>
+
+        <div class="steps-section">
+          <h2>配置步骤</h2>
+
+          <div class="step-item">
+            <div class="step-header">
+              <span class="step-number">1</span>
+              <h3>创建配置文件</h3>
+            </div>
+            <div class="step-content">
+              <p>在应用程序的<strong>根目录</strong>下创建一个名为 <code>.env</code> 的文件。</p>
+              <div class="path-hint">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>文件位置：<code id="app-path">记账助手安装目录\.env</code></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-header">
+              <span class="step-number">2</span>
+              <h3>编辑配置内容</h3>
+            </div>
+            <div class="step-content">
+              <p>将以下内容复制到 <code>.env</code> 文件中，并替换为您的实际配置：</p>
+              
+              <div class="code-block">
+                <div class="code-header">
+                  <span>.env</span>
+                  <button class="copy-btn" id="copy-env">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    复制
+                  </button>
+                </div>
+                <pre><code id="env-template"># API配置 - 请填入您的实际API密钥
+AI_API_KEY=your-api-key-here
+
+# API地址
+AI_API_URL=your-api-url-here
+
+# 模型名称
+AI_MODEL=your-model-name-here</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-header">
+              <span class="step-number">3</span>
+              <h3>重启应用</h3>
+            </div>
+            <div class="step-content">
+              <p>保存文件后，<strong>重启记账助手</strong>，AI 功能即可生效。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="provider-section">
+          <h2>常用 API 服务商配置</h2>
+          <p class="section-desc">选择您使用的服务商，查看对应的配置示例：</p>
+          <p class="doc-link">详细配置教程请点击 <a href="配置文档/doc.html">配置文档</a></p>
+          
+          <div class="provider-tabs">
+            <button class="provider-tab active" data-provider="modelscope">魔塔 ModelScope</button>
+            <button class="provider-tab" data-provider="deepseek">DeepSeek</button>
+          </div>
+
+          <div class="provider-content active" data-provider="modelscope">
+            <div class="provider-card">
+              <div class="provider-header">
+                <h4>魔塔社区 ModelScope</h4>
+                <span class="recommend-badge">推荐</span>
+              </div>
+              <p class="provider-desc">阿里云旗下模型平台，免费额度充足，国内访问稳定</p>
+              <div class="provider-config">
+                <div class="config-item">
+                  <span class="config-label">AI_API_KEY</span>
+                  <code class="config-value">您的 API Key</code>
+                </div>
+                <div class="config-item">
+                  <span class="config-label">AI_API_URL</span>
+                  <code class="config-value">https://api-inference.modelscope.cn/v1</code>
+                </div>
+                <div class="config-item">
+                  <span class="config-label">AI_MODEL</span>
+                  <code class="config-value">ZhipuAI/GLM-4.7-Flash</code>
+                  <span class="config-hint">或 XiaomiMiMo/MiMo-V2-Flash等其他文本生成模型</span>
+                </div>
+              </div>
+              <div class="provider-help">
+                <a href="https://modelscope.cn" target="_blank">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  访问 ModelScope 获取 API Key
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="provider-content" data-provider="deepseek">
+            <div class="provider-card">
+              <div class="provider-header">
+                <h4>DeepSeek</h4>
+              </div>
+              <p class="provider-desc">国产大模型，性价比高，中文理解能力强</p>
+              <div class="provider-config">
+                <div class="config-item">
+                  <span class="config-label">AI_API_KEY</span>
+                  <code class="config-value">您的 API Key</code>
+                </div>
+                <div class="config-item">
+                  <span class="config-label">AI_API_URL</span>
+                  <code class="config-value">https://api.deepseek.com/v1</code>
+                </div>
+                <div class="config-item">
+                  <span class="config-label">AI_MODEL</span>
+                  <code class="config-value">deepseek-chat</code>
+
+                </div>
+              </div>
+              <div class="provider-help">
+                <a href="https://platform.deepseek.com" target="_blank">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  访问 DeepSeek 获取 API Key
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tips-section">
+          <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+              <path d="M8.5 8.5v.01"></path>
+              <path d="M16 15.5v.01"></path>
+              <path d="M12 12v.01"></path>
+              <path d="M11 17v.01"></path>
+              <path d="M7 14v.01"></path>
+            </svg>
+            小贴士
+          </h3>
+          <ul>
+            <li>API Key 是敏感信息，请勿分享给他人</li>
+            <li>如不配置 AI 功能，其他功能仍可正常使用</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="setup-actions">
+        <button class="btn-primary" id="btn-done">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          我已配置完成
+        </button>
+        <button class="btn-secondary" id="btn-skip">
+          暂不配置，稍后设置
+        </button>
+      </div>
+    </div>
+
+    <div class="setup-footer">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        您的配置保存在本地，不会上传到服务器
+      </p>
+    </div>
+  </div>
+
+  <script src="setup.js"></script>
+</body>
+</html>

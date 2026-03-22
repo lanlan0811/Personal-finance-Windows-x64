@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>配置文档 - 记账助手</title>
+  <link rel="stylesheet" href="doc.css">
+</head>
+<body>
+  <div class="doc-container">
+    <div class="doc-header">
+      <h1>API 配置文档</h1>
+      <p>详细的 API 服务商注册与配置教程</p>
+    </div>
+
+    <nav class="doc-nav">
+      <button class="nav-item active" data-provider="modelscope">魔塔社区 ModelScope</button>
+      <button class="nav-item" data-provider="deepseek">DeepSeek</button>
+    </nav>
+
+    <main class="doc-content">
+      <section id="modelscope" class="doc-section active" data-provider="modelscope">
+        <div class="section-header">
+          <h2>魔塔社区 ModelScope</h2>
+          <span class="recommend-badge">推荐</span>
+        </div>
+        <p class="section-desc">阿里云旗下模型平台，免费额度充足，国内访问稳定</p>
+
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <p>访问 <a href="https://www.modelscope.cn/" target="_blank">https://www.modelscope.cn/</a> 并注册账号</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <p>登录后，绑定阿里云账号并进行实名认证，点击右上角头像 → 绑定阿里云账号</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <p>点击右上角头像 → 账号设置 → 访问令牌</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <p>创建或复制你的访问令牌（以 <code>ms-</code> 开头）</p>
+              <div class="tip-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>建议：创建访问令牌——有效期选择"长期使用"</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <p>将访问令牌填入 <code>.env</code> 文件的 <code>AI_API_KEY</code></p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">6</div>
+            <div class="step-content">
+              <p>在魔塔社区 <a href="https://www.modelscope.cn/models" target="_blank">https://www.modelscope.cn/models</a> 选择支持的文本生成模型</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="config-example">
+          <h3>配置示例</h3>
+          <div class="code-block">
+            <pre><code># API配置 - 请填入您的实际API密钥
+AI_API_KEY=ms-xxxxxxxxxxxxxxxx
+
+# API地址
+AI_API_URL=https://api-inference.modelscope.cn/v1
+
+# 模型名称
+AI_MODEL=ZhipuAI/GLM-4.7-Flash（可使用其他支持的文本生成模型）</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="deepseek" class="doc-section" data-provider="deepseek">
+        <div class="section-header">
+          <h2>DeepSeek</h2>
+        </div>
+        <p class="section-desc">国产大模型，性价比高，中文理解能力强</p>
+
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <p>访问 <a href="https://platform.deepseek.com/" target="_blank">https://platform.deepseek.com/</a> 并注册账号</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <p>登录后，点击右上角头像 → API Keys</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <p>点击「创建 API Key」按钮，生成新的 API Key</p>
+              <div class="tip-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>建议：复制 API Key 后妥善保存，页面关闭后无法再次查看</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <p>将 API Key 填入 <code>.env</code> 文件的 <code>AI_API_KEY</code></p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <p>在 DeepSeek 平台 <a href="https://platform.deepseek.com/api-docs/" target="_blank">API 文档</a> 查看支持的模型</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="config-example">
+          <h3>配置示例</h3>
+          <div class="code-block">
+            <pre><code># API配置 - 请填入您的实际API密钥
+AI_API_KEY=sk-xxxxxxxxxxxxxxxx
+
+# API地址
+AI_API_URL=https://api.deepseek.com/v1
+
+# 模型名称
+AI_MODEL=deepseek-chat</code></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="doc-footer">
+      <a href="../setup.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        返回配置页面
+      </a>
+    </footer>
+  </div>
+
+  <script src="doc.js"></script>
+</body>
+</html>
