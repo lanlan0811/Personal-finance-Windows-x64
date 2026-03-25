@@ -26,6 +26,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   showWeeklyReport: (report) => 
     ipcRenderer.send('show-weekly-report', report),
   
+  closeSetup: () => 
+    ipcRenderer.send('close-setup'),
+  
+  skipSetup: () => 
+    ipcRenderer.send('skip-setup'),
+  
   platform: process.platform,
   
   appVersion: process.env.npm_package_version || '2.0.0',

@@ -168,12 +168,21 @@ AI 分析功能支持兼容 OpenAI API 格式的服务。
 AI_API_KEY=sk-xxxxxxxxxxxxxxxx
 
 # API地址
-AI_API_URL=https://api.openai.com/v1
+AI_API_URL=https://api.deepseek.com/v1/chat/completions
 
 # 模型名称
-AI_MODEL=gpt-4o-mini（可使用其他模型）
-
+AI_MODEL=deepseek-chat
 ```
+
+**DeepSeek 注册与使用步骤：**
+
+1. 访问 [DeepSeek 开放平台](https://platform.deepseek.com/) 并注册账号
+2. 登录后，点击右上角头像 → API Keys
+3. 点击「创建 API Key」按钮，生成新的 API Key
+4. 复制 API Key 后妥善保存，页面关闭后无法再次查看
+5. 在账户中心充值额度
+6. 将 API Key 填入 `.env` 文件的 `AI_API_KEY`
+7. 在 DeepSeek 平台 [API 文档](https://platform.deepseek.com/api-docs/) 查看支持的模型
 
 *注意：可以使用魔塔社区免费模型*
 
@@ -182,7 +191,7 @@ AI_MODEL=gpt-4o-mini（可使用其他模型）
 AI_API_KEY=ms-xxxxxxxxxxxxxxxx
 
 # API地址
-AI_API_URL=https://api-inference.modelscope.cn/v1
+AI_API_URL=https://api-inference.modelscope.cn/v1/chat/completions
 
 # 模型名称
 AI_MODEL=XiaomiMiMo/MiMo-V2-Flash（可使用其他支持的文本生成模型）

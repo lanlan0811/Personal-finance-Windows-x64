@@ -68,7 +68,10 @@ function setupProviderTabs() {
 function setupActionButtons() {
   elements.btnDone.addEventListener('click', () => {
     if (window.electronAPI && window.electronAPI.closeSetup) {
-      window.electronAPI.closeSetup();
+      showToast('配置完成，正在启动应用...', 'success');
+      setTimeout(() => {
+        window.electronAPI.closeSetup();
+      }, 1000);
     } else {
       showToast('请重启应用以加载新配置', 'success');
       setTimeout(() => {
@@ -79,7 +82,10 @@ function setupActionButtons() {
   
   elements.btnSkip.addEventListener('click', () => {
     if (window.electronAPI && window.electronAPI.skipSetup) {
-      window.electronAPI.skipSetup();
+      showToast('正在启动应用...', 'success');
+      setTimeout(() => {
+        window.electronAPI.skipSetup();
+      }, 500);
     } else {
       localStorage.setItem('ai_setup_skipped', 'true');
       showToast('您可以稍后在设置中配置', 'success');

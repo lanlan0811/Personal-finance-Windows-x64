@@ -1,10 +1,46 @@
 const path = require('path');
 const fs = require('fs');
-const { app, BrowserWindow, Notification, ipcMain, nativeImage, Menu } = require('electron');
+const { app, BrowserWindow, Notification, ipcMain, nativeImage, Menu, shell } = require('electron');
 const config = require('./config');
 
 let mainWindow = null;
+let setupWindow = null;
 let reminderTimeout = null;
+
+function checkEnvFile() {
+  const envPath = path.join(__dirname, '.env');
+  return fs.existsSync(envPath);
+}
+
+function createSetupWindow() {
+  const preloadPath = path.join(__dirname, 'preload.js');
+
+  setupWindow = new BrowserWindow({
+    width: 900,
+    height: 700,
+    frame: true,
+    transparent: false,
+    backgroundColor: '#1a1a2e',
+    resizable: true,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: preloadPath,
+      sandbox: false
+    }
+  });
+
+  setupWindow.loadFile('配置引导/setup.html');
+
+  setupWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  });
+
+  setupWindow.on('closed', () => {
+    setupWindow = null;
+  });
+}
 
 function getNotificationIcon() {
   const pngIconPath = path.join(__dirname, 'assets/icons/logo.png');
@@ -29,8 +65,14 @@ function getNotificationIcon() {
   return null;
 }
 
-function createWindow() {
+function createWindow(reloadConfig = false) {
   const preloadPath = path.join(__dirname, 'preload.js');
+  
+  let appConfig = config;
+  if (reloadConfig) {
+    delete require.cache[require.resolve('./config')];
+    appConfig = require('./config');
+  }
 
   mainWindow = new BrowserWindow({
     width: 1400,
@@ -50,18 +92,23 @@ function createWindow() {
   
   mainWindow.webContents.on('dom-ready', () => {
     mainWindow.webContents.executeJavaScript(`
-      window.appConfig = ${JSON.stringify(config)};
+      window.appConfig = ${JSON.stringify(appConfig)};
     `).catch(err => console.error('注入配置失败:', err));
   });
   
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.send('config-loaded', config);
+    mainWindow.webContents.send('config-loaded', appConfig);
   });
 }
 
 app.whenReady().then(() => {
   Menu.setApplicationMenu(null);
-  createWindow();
+  
+  if (!checkEnvFile()) {
+    createSetupWindow();
+  } else {
+    createWindow();
+  }
 });
 
 app.on('window-all-closed', () => {
@@ -82,6 +129,26 @@ app.on('activate', () => {
 
 ipcMain.handle('get-config', () => {
   return config;
+});
+
+ipcMain.on('close-setup', () => {
+  if (setupWindow) {
+    setupWindow.close();
+  }
+  
+  if (!mainWindow) {
+    createWindow(true);
+  }
+});
+
+ipcMain.on('skip-setup', () => {
+  if (setupWindow) {
+    setupWindow.close();
+  }
+  
+  if (!mainWindow) {
+    createWindow(false);
+  }
 });
 
 ipcMain.handle('ai-chat', async (event, { apiUrl, apiKey, model, messages, maxTokens, temperature }) => {
